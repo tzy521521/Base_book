@@ -4,6 +4,7 @@ import chapter28.AbstractGraph;
 import java.util.*;
 
 public class WeightedGraph<V> extends AbstractGraph<V> {
+  protected List<WeightedEdge> allEdges = new ArrayList<>();//图中所有的边
   /** Construct an empty */
   public WeightedGraph() {
   }
@@ -41,11 +42,13 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
     this.vertices = vertices;     
 
     for (int i = 0; i < vertices.size(); i++) {
-      neighbors.add(new ArrayList<Edge>()); // Create a list for vertices
+      neighbors.add(new ArrayList<>()); // Create a list for vertices
     }
 
     for (int i = 0; i < edges.length; i++) {
-      neighbors.get(edges[i][0]).add(new WeightedEdge(edges[i][0], edges[i][1], edges[i][2]));
+      WeightedEdge temp=new WeightedEdge(edges[i][0], edges[i][1], edges[i][2]);
+      neighbors.get(edges[i][0]).add(temp);
+      allEdges.add(temp);
     }
   }
 
@@ -54,7 +57,7 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
     this.vertices = vertices;     
 
     for (int i = 0; i < vertices.size(); i++) {
-      neighbors.add(new ArrayList<Edge>()); // Create a list for vertices
+      neighbors.add(new ArrayList<>()); // Create a list for vertices
     }
 
     for (WeightedEdge edge: edges) {      
@@ -90,6 +93,24 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
     return addEdge(new WeightedEdge(u, v, weight));
   }
 
+  public MST getMinimumSpanningTreeWithKruskal(){
+    List<Integer> T=new ArrayList<>();
+    boolean[] isInT=new boolean[getSize()];
+    Collections.sort(allEdges);
+    while (T.size()<getSize()){
+      for (WeightedEdge weightedEdge:allEdges) {
+        if (!isInT[weightedEdge.u]){
+            T.add(weightedEdge.u);
+            isInT[weightedEdge.u]=true;
+        }
+        if (!isInT[weightedEdge.v]){
+          T.add(weightedEdge.v);
+          isInT[weightedEdge.v]=true;
+        }
+      }
+    }
+    return null;
+  }
   /** Get a minimum spanning tree rooted at vertex 0 */
   public MST getMinimumSpanningTree() {
     return getMinimumSpanningTree(0);
