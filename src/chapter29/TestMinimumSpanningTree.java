@@ -1,5 +1,8 @@
 package chapter29;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestMinimumSpanningTree {
   public static void main(String[] args) {
     String[] vertices = {"Seattle", "San Francisco", "Los Angeles",
@@ -30,14 +33,26 @@ public class TestMinimumSpanningTree {
     System.out.println("Total weight is " + tree1.getTotalWeight());
     tree1.printTree();
 
-    //高效的判断u和v是否在T中。
+
+
+
     WeightedGraph<String>.MST tree2 = graph1.getMinimumSpanningTree0(0);
     System.out.println("Total weight is " + tree2.getTotalWeight());
     tree2.printTree();
 
+    WeightedGraph<String>.MST tree3 = graph1.getMinimumSpanningTreeWithKruskal();
+    System.out.println("Total weight is " + tree3.getTotalWeight());
+    tree1.printTree();
+    /*
+    ArrayList<WeightedEdge> result=graph1.getMinimumSpanningTreeWithKruskal();
+    for (WeightedEdge e:result) {
+      System.out.println(e.u+" "+e.v+" "+e.weight);
+    }
+     */
+
     /*
     edges = new int[][]{
-      {0, 1, 2}, {0, 3, 8},
+      {0, 1, 2}, {0, 3, 8},e.v
       {1, 0, 2}, {1, 2, 7}, {1, 3, 3},
       {2, 1, 7}, {2, 3, 4}, {2, 4, 5},
       {3, 0, 8}, {3, 1, 3}, {3, 2, 4}, {3, 4, 6},

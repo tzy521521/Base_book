@@ -94,23 +94,24 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
   }
 
   public MST getMinimumSpanningTreeWithKruskal(){
-    List<Integer> T=new ArrayList<>();
-    boolean[] isInT=new boolean[getSize()];
-    Collections.sort(allEdges);
-    while (T.size()<getSize()){
-      for (WeightedEdge weightedEdge:allEdges) {
-        if (!isInT[weightedEdge.u]){
-            T.add(weightedEdge.u);
-            isInT[weightedEdge.u]=true;
-        }
-        if (!isInT[weightedEdge.v]){
-          T.add(weightedEdge.v);
-          isInT[weightedEdge.v]=true;
-        }
+    ArrayList<WeightedEdge> T=new ArrayList<>();
 
+    Collections.sort(allEdges);
+    DisjSets disjSets=new DisjSets(getSize());
+    double totalWeight = 0;
+    while (disjSets.getCount()>1){
+      for (WeightedEdge weightedEdge:allEdges) {
+        int root1=disjSets.find(weightedEdge.u);
+        int root2=disjSets.find(weightedEdge.v);
+        if (root1!=disjSets.find(weightedEdge.v)){
+          disjSets.unionByHeight(root1,root2);
+          T.add(weightedEdge);
+          totalWeight+=weightedEdge.weight;
+        }
       }
     }
-    return null;
+    return new MST(0, disjSets.getS(), null, totalWeight);
+    //return T;
   }
   /** Get a minimum spanning tree rooted at vertex 0 */
   public MST getMinimumSpanningTree() {
