@@ -31,23 +31,37 @@ public class TestShortestPath {
 
     // Display shortest paths from Houston to Chicago
     System.out.print("Shortest path from Houston to Chicago: ");
-    java.util.List<String> path 
-      = tree1.getPath(graph1.getIndex("Houston"));
+    java.util.List<String> path = tree1.getPath(graph1.getIndex("Houston"));
     for (String s: path) {
       System.out.print(s + " ");
     }
+    /*
+    System.out.println();
+    int[][] dist=graph1.getShortestPath();
+    for (int i = 0; i <vertices.length ; i++) {
+      for (int j = 0; j <vertices.length ; j++) {
+        System.out.printf("%5d ",dist[i][j]);
+      }
+      System.out.println();
+    }
+     */
 
+
+
+    /*
     edges = new int[][] {
-      {0, 1, 2}, {0, 3, 8}, 
+      {0, 1, 2}, {0, 3, 8},
       {1, 0, 2}, {1, 2, 7}, {1, 3, 3},
       {2, 1, 7}, {2, 3, 4}, {2, 4, 5},
       {3, 0, 8}, {3, 1, 3}, {3, 2, 4}, {3, 4, 6},
       {4, 2, 5}, {4, 3, 6}
     };
     WeightedGraph<Integer> graph2 = new WeightedGraph<>(edges, 5);
-    WeightedGraph<Integer>.ShortestPathTree tree2 = 
+    WeightedGraph<Integer>.ShortestPathTree tree2 =
       graph2.getShortestPath(3);
     System.out.println("\n");
     tree2.printAllPaths();
+     */
+
   }
 }

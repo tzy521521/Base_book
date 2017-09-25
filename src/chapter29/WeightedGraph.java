@@ -5,6 +5,10 @@ import java.util.*;
 
 public class WeightedGraph<V> extends AbstractGraph<V> {
   protected List<WeightedEdge> allEdges = new ArrayList<>();//图中所有的边
+  //folyd
+  protected int[][] dist;
+  //路径。path[i][j]=k表示，"顶点i"到"顶点j"的最短路径会经过顶点k。
+  protected int[][] path;
   /** Construct an empty */
   public WeightedGraph() {
   }
@@ -39,8 +43,18 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
 
   /** Create adjacency lists from edge arrays */
   private void createWeightedGraph(List<V> vertices, int[][] edges) {
-    this.vertices = vertices;     
-
+    this.vertices = vertices;
+    //dist 二长度数组。即，dist[i][j]=sum表示，"顶点i"到"顶点j"的最短路径的长度是sum。Folyd
+    dist=new int[vertices.size()][vertices.size()];
+    path=new int[vertices.size()][vertices.size()];
+    for (int i = 0; i <vertices.size() ; i++) {
+      for (int j = 0; j <vertices.size() ; j++) {
+        if (i==j)
+          dist[i][j]=0;
+        else
+          dist[i][j]=Integer.MAX_VALUE;
+      }
+    }
     for (int i = 0; i < vertices.size(); i++) {
       neighbors.add(new ArrayList<>()); // Create a list for vertices
     }
@@ -49,6 +63,7 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
       WeightedEdge temp=new WeightedEdge(edges[i][0], edges[i][1], edges[i][2]);
       neighbors.get(edges[i][0]).add(temp);
       allEdges.add(temp);
+      dist[edges[i][0]][edges[i][1]]=edges[i][2];
     }
   }
 
@@ -217,6 +232,21 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
     }
   }
 
+  public int[][] getShortestPath(){
+    for (int k = 0; k <getSize() ; k++) {
+      //分别以每个顶点为中介节点更新最短路径矩阵
+      for (int i = 0; i <getSize() ; i++) {
+        for (int j = 0; j <getSize() ; j++) {
+          int tem=(dist[i][k]==Integer.MAX_VALUE||dist[k][j]==Integer.MAX_VALUE)?Integer.MAX_VALUE:(dist[i][k]+dist[k][j]);
+          if (dist[i][j]>tem){
+            dist[i][j]=tem;
+            path[i][j]=path[i][k];
+          }
+        }
+      }
+    }
+    return dist;
+  }
   /** Find single source shortest paths */
   public ShortestPathTree getShortestPath(int sourceVertex) {
     // cost[v] stores the cost of the path from v to the source
