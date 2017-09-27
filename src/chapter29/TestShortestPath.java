@@ -1,5 +1,7 @@
 package chapter29;
 
+import java.util.ArrayList;
+
 public class TestShortestPath {
   public static void main(String[] args) {
     String[] vertices = {"Seattle", "San Francisco", "Los Angeles",
@@ -35,7 +37,7 @@ public class TestShortestPath {
     for (String s: path) {
       System.out.print(s + " ");
     }
-    /*
+
     System.out.println();
     int[][] dist=graph1.getShortestPath();
     for (int i = 0; i <vertices.length ; i++) {
@@ -44,9 +46,20 @@ public class TestShortestPath {
       }
       System.out.println();
     }
-     */
+    int[][]path1=graph1.getPath();
+    for (int i = 0; i <vertices.length ; i++) {
+      for (int j = 0; j <vertices.length ; j++) {
+        System.out.printf("%5d ",path1[i][j]);
+      }
+      System.out.println();
+    }
+    System.out.println("!!!!!1");
 
-
+    ArrayList<Integer> pat=graph1.path(5,11);
+    for (Integer in:pat) {
+      System.out.print(in+" ");
+    }
+    System.out.println("~~~");
 
     /*
     edges = new int[][] {

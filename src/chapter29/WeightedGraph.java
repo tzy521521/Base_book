@@ -63,7 +63,10 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
       WeightedEdge temp=new WeightedEdge(edges[i][0], edges[i][1], edges[i][2]);
       neighbors.get(edges[i][0]).add(temp);
       allEdges.add(temp);
+      //初始化最短路径数组。
       dist[edges[i][0]][edges[i][1]]=edges[i][2];
+      //初始化前驱定点数组。
+      path[edges[i][0]][edges[i][1]]=edges[i][1];
     }
   }
 
@@ -240,13 +243,27 @@ public class WeightedGraph<V> extends AbstractGraph<V> {
           int tem=(dist[i][k]==Integer.MAX_VALUE||dist[k][j]==Integer.MAX_VALUE)?Integer.MAX_VALUE:(dist[i][k]+dist[k][j]);
           if (dist[i][j]>tem){
             dist[i][j]=tem;
-            path[i][j]=path[i][k];
+            path[i][j]=k;
           }
         }
       }
     }
     return dist;
   }
+
+  public int[][] getPath() {
+    return path;
+  }
+  public ArrayList<Integer> path(int source,int target){
+    ArrayList<Integer> result=new ArrayList<>();
+    int k=target;
+    while (path[k][source]!=source){
+      result.add(path[k][source]);
+      k=path[k][source];
+    }
+    return result;
+  }
+
   /** Find single source shortest paths */
   public ShortestPathTree getShortestPath(int sourceVertex) {
     // cost[v] stores the cost of the path from v to the source
