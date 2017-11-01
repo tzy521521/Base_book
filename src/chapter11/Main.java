@@ -6,6 +6,8 @@ package chapter11;
 public class Main {
     public static void main(String[] args) {
         new Students();
+        System.out.println(Runtime.getRuntime());
+        System.out.println("~~~~~~`");
     }
     static class Person{
         public Person() {
@@ -20,7 +22,7 @@ public class Main {
     }
     static class Students extends Person{
         public Students() {
-
+            System.out.println("Student constructor");
         }
         static {
             System.out.println("static Students");
